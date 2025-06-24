@@ -1,0 +1,30 @@
+name: Run JOJ3 on Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  run:
+    runs-on: focs-latest-slim
+    container:
+      volumes:
+        - /home/tt/.config:/home/tt/.config
+        - /home/tt/.cache:/home/tt/.cache
+        - /home/tt/.ssh:/home/tt/.ssh
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@focs
+        with:
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: 'true'
+      - name: Checkout lfs
+        run: |
+          git lfs install --local
+          AUTH=$(git config --local http.https://focs.ji.sjtu.edu.cn/.extraheader)
+          git config --local --unset http.https://focs.ji.sjtu.edu.cn/.extraheader
+          git config --local http.${{ github.server_url }}/${{ github.repository }}.git/info/lfs/objects/batch.extraheader "$AUTH"
+          git lfs pull
+      - name: Run joj3
+        run: |
+          sudo -E -u tt joj3 -conf-root "/home/tt/.config/joj/p2_release" -conf-name "conf.json" -tag "${{ github.ref_name }}"
