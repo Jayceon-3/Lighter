@@ -6,6 +6,9 @@
 *
 .*
 
+node_modules/
+**/node_modules/
+
 # allowed
 !.git*
 !make
@@ -34,3 +37,5 @@
 **/.DS_Store
 Zone.identifier
 **/Zone.identifier
+package-lock.json
+package.json
