@@ -1,0 +1,5 @@
+INFO: Found elm at /home/jason/.nvm/versions/node/v22.15.1/bin/elm
+INFO: Found elm 0.19.1
+INFO: Found elm-format at /home/jason/.nvm/versions/node/v22.15.1/bin/elm-format
+INFO: Found elm-format 0.8.7
+ERROR: You must run the upgrade from a folder containing elm-package.json
