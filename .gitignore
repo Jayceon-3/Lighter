@@ -8,8 +8,6 @@
 
 node_modules/
 **/node_modules/
-package-lock.json
-package.json
 
 # allowed
 !.git*
@@ -39,3 +37,5 @@ package.json
 **/.DS_Store
 Zone.identifier
 **/Zone.identifier
+package-lock.json
+package.json
