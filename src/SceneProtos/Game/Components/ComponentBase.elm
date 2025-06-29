@@ -9,11 +9,14 @@ module SceneProtos.Game.Components.ComponentBase exposing (ComponentMsg(..), Com
 
 -}
 
+import SceneProtos.Game.Components.Player.Init as PlayerInit
+
 
 {-| Component message
 -}
 type ComponentMsg
     = NullComponentMsg
+    | PlayerInitMsg PlayerInit.InitData
 
 
 {-| Component target

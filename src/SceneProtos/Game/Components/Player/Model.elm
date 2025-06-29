@@ -10,17 +10,29 @@ import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
 import Messenger.Component.Component exposing (ComponentInit, ComponentMatcher, ComponentStorage, ComponentUpdate, ComponentUpdateRec, ComponentView, ConcreteUserComponent, genComponent)
 import REGL.BuiltinPrograms as P
-import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg, ComponentTarget)
+import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg(..), ComponentTarget)
 import SceneProtos.Game.SceneBase exposing (SceneCommonData)
+import Speed exposing (Speed)
 
 
 type alias Data =
-    {}
+    { position : ( Float, Float )
+    , speed : Float
+    , direction : Int
+    , hp : Float
+    , id : Int
+    , ty : String
+    }
 
 
 init : ComponentInit SceneCommonData UserData ComponentMsg Data BaseData
 init env initMsg =
-    ( {}, () )
+    case initMsg of
+        PlayerInitMsg data ->
+            ( { position = data.position, speed = data.speed, direction = data.direction, hp = data.hp, id = data.id, ty = data.ty }, () )
+
+        _ ->
+            ( { position = ( 0, 0 ), speed = 10, direction = 1, hp = 100, id = 1, ty = "Player" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
