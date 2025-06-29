@@ -56,6 +56,14 @@ Run in the project root directory: ***make***
 
 Open the file ***index.html*** in your browser. Then enjoy the game!
 
+# Operation
+
+## Operation
+
+- ***A/D***: Move left or right
+
+- ***W***: Jump and double jump
+
 # Contributing
 
 If anyone would like to contribute to it, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
