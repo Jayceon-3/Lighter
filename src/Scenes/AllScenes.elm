@@ -17,7 +17,6 @@ import Lib.UserData exposing (UserData)
 import Messenger.Scene.Scene exposing (AllScenes)
 
 
-
 {-| All Scenes
 
 Store all the scenes with their name here.
@@ -26,5 +25,4 @@ Store all the scenes with their name here.
 allScenes : AllScenes UserData SceneMsg
 allScenes =
     Dict.fromList
-        [ 
-        ]
+        []
