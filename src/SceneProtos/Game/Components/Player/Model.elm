@@ -75,7 +75,7 @@ update env evnt data basedata =
                     max 0 (vx - a * dt / 1000)
 
                 vx2 =
-                    min 500 (vx + a * dt / 1000)
+                    min 600 (vx + a * dt / 1000)
 
                 vy1 =
                     max 0 (vy - g * dt / 1000)
@@ -95,14 +95,14 @@ update env evnt data basedata =
 
         KeyDown 65 ->
             -- move_left_or_right env data basedata -1
-            ( ( { data | state = { sta | a_pressed = True, direction = -1 } }, basedata ), [], ( env, False ) )
+            ( ( { data | state = { sta | a_pressed = True, direction = -1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
 
         KeyUp 65 ->
             ( ( { data | state = { sta | a_pressed = False } }, basedata ), [], ( env, False ) )
 
         KeyDown 68 ->
             -- move_left_or_right env data basedata 1
-            ( ( { data | state = { sta | d_pressed = True, direction = 1 } }, basedata ), [], ( env, False ) )
+            ( ( { data | state = { sta | d_pressed = True, direction = 1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
 
         KeyUp 68 ->
             ( ( { data | state = { sta | d_pressed = False } }, basedata ), [], ( env, False ) )
