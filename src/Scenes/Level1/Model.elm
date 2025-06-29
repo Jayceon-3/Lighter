@@ -15,7 +15,7 @@ import SceneProtos.Game.Init exposing (InitData)
 import SceneProtos.Game.Model exposing (genScene)
 
 
-init : LayeredSceneLevelInit UserData SceneMsg InitData
+init : LayeredSceneLevelInit UserData SceneMsg (InitData SceneMsg)
 init env msg =
     Nothing
 

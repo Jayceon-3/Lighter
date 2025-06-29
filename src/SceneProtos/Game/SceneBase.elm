@@ -17,6 +17,8 @@ Basic data for the scene.
 
 -}
 
+import SceneProtos.Game.Main.Init as MainInit
+
 
 {-| Layer target type
 -}
@@ -32,5 +34,6 @@ type alias SceneCommonData =
 
 {-| General message for layers
 -}
-type LayerMsg
+type LayerMsg scenemsg
     = NullLayerMsg
+    | MainInitData (MainInit.InitData SceneCommonData scenemsg)
