@@ -9,13 +9,18 @@ module SceneProtos.Game.Components.Player.Init exposing (..)
 
 -}
 
+import Json.Decode exposing (bool)
+
 
 type alias State =
     { position : ( Float, Float )
-    , speed : Float
-    , direction : Int
+    , direction : Float
     , hp : Float
     , alive : Bool
+    , vx : Float
+    , vy : Float
+    , a_pressed : Bool
+    , d_pressed : Bool
     }
 
 
