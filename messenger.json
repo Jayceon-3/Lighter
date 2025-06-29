@@ -7,11 +7,18 @@
     "auto_commit": true,
     "use_cdn": false,
     "use_min": false,
-    "scenes": {},
+    "scenes": {
+        "Level1": {
+            "sceneproto": "Game",
+            "raw": false
+        }
+    },
     "sceneprotos": {
         "Game": {
             "raw": false,
-            "levels": []
+            "levels": [
+                "Level1"
+            ]
         }
     }
 }
