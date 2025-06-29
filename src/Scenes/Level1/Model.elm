@@ -26,7 +26,7 @@ init env msg =
 
 initData : Env () UserData -> Maybe SceneMsg -> InitData SceneMsg
 initData env msg =
-    { objects = [ Player.component (PlayerInitMsg <| PlayerInit.InitData 1 "Player" { position = ( 100, 500 ), vx = 0, vy = 0, direction = 1, alive = True, hp = 100, a_pressed = False, d_pressed = False }) ] }
+    { objects = [ Player.component (PlayerInitMsg <| PlayerInit.InitData 1 "Player" { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, alive = True, hp = 100, a_pressed = False, d_pressed = False, canjump = 1 }) ] }
 
 
 {-| Scene storage

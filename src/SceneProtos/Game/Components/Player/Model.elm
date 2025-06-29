@@ -7,6 +7,7 @@ module SceneProtos.Game.Components.Player.Model exposing (component)
 -}
 
 import Color exposing (Color)
+import Json.Decode exposing (bool)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
 import Messenger.Base exposing (..)
@@ -35,14 +36,17 @@ init env initMsg =
             ( { state = data.state, id = data.id, ty = data.ty }, () )
 
         _ ->
-            ( { state = { position = ( 100, 500 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False }, id = 1, ty = "Player" }, () )
+            ( { state = { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False, canjump = 1 }, id = 1, ty = "Player" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 update env evnt data basedata =
     let
+        dat =
+            jumprestore data
+
         sta =
-            data.state
+            dat.state
 
         vx =
             sta.vx
@@ -63,10 +67,10 @@ update env evnt data basedata =
                     x + vx * dt / 1000 * dir
 
                 y1 =
-                    y + vy * dt / 1000 * dir
+                    y + vy * dt / 1000
 
                 g =
-                    200
+                    1500
 
                 a =
                     1500
@@ -78,7 +82,7 @@ update env evnt data basedata =
                     min 600 (vx + a * dt / 1000)
 
                 vy1 =
-                    max 0 (vy - g * dt / 1000)
+                    vy + g * dt / 1000
 
                 stat =
                     { sta | position = ( x1, y1 ), vx = vx1, vy = vy1 }
@@ -88,27 +92,34 @@ update env evnt data basedata =
             in
             if stat.a_pressed || stat.d_pressed then
                 -- move env { data | state = stat } basedata
-                ( ( { data | state = stat2 }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat2 }, basedata ), [], ( env, False ) )
 
             else
-                ( ( { data | state = stat }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat }, basedata ), [], ( env, False ) )
 
         KeyDown 65 ->
             -- move_left_or_right env data basedata -1
-            ( ( { data | state = { sta | a_pressed = True, direction = -1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
+            ( ( { dat | state = { sta | a_pressed = True, direction = -1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
 
         KeyUp 65 ->
-            ( ( { data | state = { sta | a_pressed = False } }, basedata ), [], ( env, False ) )
+            ( ( { dat | state = { sta | a_pressed = False } }, basedata ), [], ( env, False ) )
 
         KeyDown 68 ->
             -- move_left_or_right env data basedata 1
-            ( ( { data | state = { sta | d_pressed = True, direction = 1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
+            ( ( { dat | state = { sta | d_pressed = True, direction = 1, vx = min sta.vx 100 } }, basedata ), [], ( env, False ) )
 
         KeyUp 68 ->
-            ( ( { data | state = { sta | d_pressed = False } }, basedata ), [], ( env, False ) )
+            ( ( { dat | state = { sta | d_pressed = False } }, basedata ), [], ( env, False ) )
+
+        KeyDown 87 ->
+            if can_jump dat then
+                ( ( { dat | state = { sta | canjump = sta.canjump - 1, vy = -500, position = ( Tuple.first sta.position, Tuple.second sta.position - 2 ) } }, basedata ), [], ( env, False ) )
+
+            else
+                ( ( dat, basedata ), [], ( env, False ) )
 
         _ ->
-            ( ( data, basedata ), [], ( env, False ) )
+            ( ( dat, basedata ), [], ( env, False ) )
 
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
@@ -118,7 +129,7 @@ updaterec env msg data basedata =
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.black ], 0 )
+    ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
 
 
 matcher : ComponentMatcher Data BaseData ComponentTarget
@@ -141,3 +152,37 @@ componentcon =
 component : ComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData SceneMsg
 component =
     genComponent componentcon
+
+
+if_on_ground : Data -> Bool
+if_on_ground data =
+    if Tuple.second data.state.position < 699 then
+        False
+
+    else
+        True
+
+
+jumprestore : Data -> Data
+jumprestore data =
+    let
+        sta =
+            data.state
+    in
+    if if_on_ground data then
+        { data | state = { sta | canjump = 2, vy = 0, position = ( Tuple.first sta.position, 700 ) } }
+
+    else
+        data
+
+
+can_jump : Data -> Bool
+can_jump data =
+    if data.state.canjump == 2 && if_on_ground data then
+        True
+
+    else if data.state.canjump == 1 && not (if_on_ground data) then
+        True
+
+    else
+        False

@@ -21,6 +21,7 @@ type alias State =
     , vy : Float
     , a_pressed : Bool
     , d_pressed : Bool
+    , canjump : Int
     }
 
 
