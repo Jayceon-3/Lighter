@@ -8,5 +8,10 @@
     "use_cdn": false,
     "use_min": false,
     "scenes": {},
-    "sceneprotos": {}
+    "sceneprotos": {
+        "Game": {
+            "raw": false,
+            "levels": []
+        }
+    }
 }
