@@ -1,4 +1,4 @@
-module SceneProtos.Game.Components.Player.Init exposing (InitData)
+module SceneProtos.Game.Components.Player.Init exposing (..)
 
 {-|
 
@@ -10,13 +10,19 @@ module SceneProtos.Game.Components.Player.Init exposing (InitData)
 -}
 
 
-{-| The data used to initialize the scene
--}
-type alias InitData =
+type alias State =
     { position : ( Float, Float )
     , speed : Float
     , direction : Int
     , hp : Float
-    , id : Int
+    , alive : Bool
+    }
+
+
+{-| The data used to initialize the scene
+-}
+type alias InitData =
+    { id : Int
     , ty : String
+    , state : State
     }

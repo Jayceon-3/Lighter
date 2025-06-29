@@ -24,7 +24,12 @@ type alias Data =
 
 init : LayerInit SceneCommonData UserData (LayerMsg SceneMsg) Data
 init env initMsg =
-    Data []
+    case initMsg of
+        MainInitData data ->
+            Data data.components
+
+        _ ->
+            Data []
 
 
 handleComponentMsg : Handler Data SceneCommonData UserData LayerTarget (LayerMsg SceneMsg) SceneMsg ComponentMsg

@@ -38,7 +38,7 @@ import REGL
 -}
 initScene : String
 initScene =
-    "Home"
+    "Level1"
 
 
 {-| Initial scene message

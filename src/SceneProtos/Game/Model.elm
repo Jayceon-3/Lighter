@@ -29,11 +29,21 @@ init env data =
 
         envcd =
             addCommonData cd env
+
+        comps =
+            List.map (\x -> x envcd)
+                (case data of
+                    Just d ->
+                        d.objects
+
+                    Nothing ->
+                        []
+                )
     in
     { renderSettings = []
     , commonData = cd
     , layers =
-        [ Main.layer NullLayerMsg envcd ]
+        [ Main.layer (MainInitData { components = comps }) envcd ]
     }
 
 
