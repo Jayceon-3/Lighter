@@ -11,6 +11,9 @@
         "Level1": {
             "sceneproto": "Game",
             "raw": false
+        },
+        "Home": {
+            "raw": false
         }
     },
     "sceneprotos": {
