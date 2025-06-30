@@ -11,6 +11,7 @@ import Lib.UserData exposing (UserData)
 import Messenger.Base exposing (Env, addCommonData)
 import Messenger.Scene.LayeredScene exposing (LayeredSceneEffectFunc, LayeredSceneInit, genLayeredScene)
 import Messenger.Scene.Scene exposing (SceneStorage)
+import Scenes.Home.FrontLayer.Model as FrontLayer
 import Scenes.Home.SceneBase exposing (..)
 
 
@@ -31,7 +32,7 @@ init env msg =
     { renderSettings = []
     , commonData = cd
     , layers =
-        []
+        [ FrontLayer.layer NullLayerMsg envcd ]
     }
 
 

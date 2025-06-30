@@ -8,21 +8,63 @@ Set the Data Type, Init logic, Update logic, View logic and Matcher logic here.
 
 -}
 
+import Color exposing (..)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
 import Messenger.GeneralModel exposing (Matcher)
 import Messenger.Layer.Layer exposing (ConcreteLayer, LayerInit, LayerStorage, LayerUpdate, LayerUpdateRec, LayerView, genLayer)
 import REGL.BuiltinPrograms as P
+import REGL.Common exposing (group)
+import REGL.Effects exposing (alphamult)
 import Scenes.Home.SceneBase exposing (..)
 
 
 type alias Data =
-    {}
+    { size_set : Float
+    , size_game : Float
+    }
+
+
+type Item
+    = Settings
+    | Game
+
+
+setButtonX : Float
+setButtonX =
+    850
+
+
+setButtonY : Float
+setButtonY =
+    400
+
+
+buttonWidth : Float
+buttonWidth =
+    240
+
+
+buttonHeight : Float
+buttonHeight =
+    80
+
+
+gameButtonX : Float
+gameButtonX =
+    850
+
+
+gameButtonY : Float
+gameButtonY =
+    550
 
 
 init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
-    {}
+    { size_set = 1.0
+    , size_game = 1.0
+    }
 
 
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
@@ -37,7 +79,21 @@ updaterec env msg data =
 
 view : LayerView SceneCommonData UserData Data
 view env data =
-    P.empty
+    let
+        set =
+            P.textbox ( 858, 400 ) (80 * data.size_set) "Settings" "consolas" Color.black
+
+        game =
+            P.textbox ( 838, 550 ) (80 * data.size_game) "Game" "consolas" Color.black
+
+        background =
+            P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white
+    in
+    group [ alphamult 1 ]
+        [ background
+        , set
+        , game
+        ]
 
 
 matcher : Matcher Data LayerTarget
