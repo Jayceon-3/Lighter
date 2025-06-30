@@ -60,6 +60,20 @@ gameButtonY =
     550
 
 
+inSetButton : Float -> Float -> Bool
+inSetButton x y =
+    (x >= setButtonX)
+        && (x <= setButtonX + buttonWidth)
+        && (y >= setButtonY)
+        && (y <= setButtonY + buttonHeight)
+
+inGameButton : Float -> Float -> Bool
+inGameButton x y =
+    (x >= gameButtonX)
+        && (x <= gameButtonX + buttonWidth)
+        && (y >= gameButtonY)
+        && (y <= gameButtonY + buttonHeight)
+
 init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
     { size_set = 1.0
@@ -81,10 +95,10 @@ view : LayerView SceneCommonData UserData Data
 view env data =
     let
         set =
-            P.textbox ( 858, 400 ) (80 * data.size_set) "Settings" "consolas" Color.black
+            P.textbox ( setButtonX, setButtonY ) (buttonHeight * data.size_set) "Settings" "consolas" Color.black
 
         game =
-            P.textbox ( 838, 550 ) (80 * data.size_game) "Game" "consolas" Color.black
+            P.textbox ( gameButtonX, gameButtonX ) (buttonHeight * data.size_game) "Game" "consolas" Color.black
 
         background =
             P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white

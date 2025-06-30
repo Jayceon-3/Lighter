@@ -7,7 +7,7 @@ Set the Data Type, Init logic, Update logic, View logic and Matcher logic here.
 @docs layer
 
 -}
-
+import Color exposing (..)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
 import Messenger.GeneralModel exposing (Matcher)
@@ -37,7 +37,7 @@ updaterec env msg data =
 
 view : LayerView SceneCommonData UserData Data
 view env data =
-    P.empty
+    P.textbox ( 300, 400 ) 50 guidance "consolas" Color.black
 
 
 matcher : Matcher Data LayerTarget
@@ -60,3 +60,11 @@ layercon =
 layer : LayerStorage SceneCommonData UserData LayerTarget LayerMsg SceneMsg
 layer =
     genLayer layercon
+
+guidance : String
+guidance = 
+    """
+    A/D: Move Left or Right
+
+    W: Jump and Double Jump
+    """
