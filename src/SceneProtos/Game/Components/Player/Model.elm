@@ -124,12 +124,25 @@ update env evnt data basedata =
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 updaterec env msg data basedata =
-    ( ( data, basedata ), [], env )
+    let
+        sta =
+            data.state
+    in
+    case msg of
+        ChangeDir dir ->
+            ( ( { data | state = { sta | direction = dir } }, basedata ), [], env )
+
+        _ ->
+            ( ( data, basedata ), [], env )
 
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
+    if data.state.direction == 1 then
+        ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rectCentered ( Tuple.first data.state.position - 10, Tuple.second data.state.position - 30 ) ( 20, 20 ) 0 Color.yellow, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
+
+    else
+        ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rectCentered ( Tuple.first data.state.position + 10, Tuple.second data.state.position - 30 ) ( 20, 20 ) 0 Color.yellow, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
 
 
 matcher : ComponentMatcher Data BaseData ComponentTarget

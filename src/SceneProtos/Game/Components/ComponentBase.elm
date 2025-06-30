@@ -20,6 +20,7 @@ type ComponentMsg
     | PlayerInitMsg PlayerInit.InitData
     | WeaponInitMsg WeaponInit.InitData
     | PlayerStateMsg PlayerInit.State
+    | ChangeDir Float
 
 
 {-| Component target

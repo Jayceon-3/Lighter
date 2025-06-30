@@ -36,12 +36,41 @@ init env initMsg =
             ( { state = data.state, id = data.id, ty = data.ty }, () )
 
         _ ->
-            ( { state = { position = ( 150, 700 ), direction = 1, weaponType = 1, energy = 100 }, id = 2, ty = "Weapon" }, () )
+            ( { state = { position = ( 150, 700 ), direction = 1, angle = 0, weaponType = 1, energy = 100 }, id = 2, ty = "Weapon" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 update env evnt data basedata =
-    ( ( data, basedata ), [], ( env, False ) )
+    let
+        ( x, y ) =
+            env.globalData.mousePos
+
+        angle =
+            decideAngle env.globalData.mousePos data.state.position data.state.direction
+
+        state =
+            data.state
+    in
+    case evnt of
+        Tick dt ->
+            ( ( { data | state = { position = state.position, direction = state.direction, angle = angle, weaponType = state.weaponType, energy = state.energy } }, basedata ), [], ( env, False ) )
+
+        MouseDown 0 ( x0, y0 ) ->
+            let
+                deltaX =
+                    x0 - Tuple.first data.state.position
+            in
+            if data.state.direction == 1 && deltaX < 0 then
+                ( ( data, basedata ), [ Other ( "Player", ChangeDir -1 ) ], ( env, False ) )
+
+            else if data.state.direction == -1 && deltaX > 0 then
+                ( ( data, basedata ), [ Other ( "Player", ChangeDir 1 ) ], ( env, False ) )
+
+            else
+                ( ( data, basedata ), [], ( env, False ) )
+
+        _ ->
+            ( ( data, basedata ), [], ( env, False ) )
 
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
@@ -52,7 +81,7 @@ updaterec env msg data basedata =
                 currentState =
                     data.state
             in
-            ( ( { data | state = { position = ( Tuple.first sta.position + sta.direction * 50, Tuple.second sta.position ), direction = sta.direction, weaponType = currentState.weaponType, energy = currentState.energy } }, basedata ), [], env )
+            ( ( { data | state = { position = ( Tuple.first sta.position + sta.direction * 50, Tuple.second sta.position ), direction = sta.direction, angle = currentState.angle, weaponType = currentState.weaponType, energy = currentState.energy } }, basedata ), [], env )
 
         _ ->
             ( ( data, basedata ), [], env )
@@ -60,7 +89,7 @@ updaterec env msg data basedata =
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    ( group [] [ P.rectCentered data.state.position ( 50, 20 ) 0 Color.red ], 0 )
+    ( group [] [ P.rectCentered data.state.position ( 50, 20 ) data.state.angle Color.red ], 0 )
 
 
 matcher : ComponentMatcher Data BaseData ComponentTarget
@@ -83,3 +112,23 @@ componentcon =
 component : ComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData SceneMsg
 component =
     genComponent componentcon
+
+
+decideAngle : ( Float, Float ) -> ( Float, Float ) -> Float -> Float
+decideAngle mousePos weaponpos direction =
+    let
+        -- x =
+        --     if direction == 1 then
+        --         max ((Tuple.first playerpos) + 50 ) env.globalData.mousePos
+        --     else
+        --         min ((Tuple.first playerpos) - 50 ) env.globalData.mousePos
+        _ =
+            Debug.log "angle " angle
+
+        slope =
+            (Tuple.second weaponpos - Tuple.second mousePos) / (Tuple.first mousePos - Tuple.first weaponpos)
+
+        angle =
+            atan slope
+    in
+    angle

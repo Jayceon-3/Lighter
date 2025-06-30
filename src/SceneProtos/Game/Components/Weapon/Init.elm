@@ -13,6 +13,7 @@ module SceneProtos.Game.Components.Weapon.Init exposing (..)
 type alias State =
     { position : ( Float, Float )
     , direction : Float
+    , angle : Float
     , weaponType : Int
     , energy : Float
     }
