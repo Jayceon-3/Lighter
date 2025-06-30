@@ -10,6 +10,7 @@ module SceneProtos.Game.Components.ComponentBase exposing (ComponentMsg(..), Com
 -}
 
 import SceneProtos.Game.Components.Player.Init as PlayerInit
+import SceneProtos.Game.Components.Weapon.Init as WeaponInit
 
 
 {-| Component message
@@ -17,6 +18,8 @@ import SceneProtos.Game.Components.Player.Init as PlayerInit
 type ComponentMsg
     = NullComponentMsg
     | PlayerInitMsg PlayerInit.InitData
+    | WeaponInitMsg WeaponInit.InitData
+    | PlayerStateMsg PlayerInit.State
 
 
 {-| Component target

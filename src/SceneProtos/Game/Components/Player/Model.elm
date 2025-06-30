@@ -92,10 +92,10 @@ update env evnt data basedata =
             in
             if stat.a_pressed || stat.d_pressed then
                 -- move env { data | state = stat } basedata
-                ( ( { dat | state = stat2 }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat2 }, basedata ), [ Other ( "Weapon", PlayerStateMsg stat2 ) ], ( env, False ) )
 
             else
-                ( ( { dat | state = stat }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat }, basedata ), [ Other ( "Weapon", PlayerStateMsg stat ) ], ( env, False ) )
 
         KeyDown 65 ->
             -- move_left_or_right env data basedata -1
