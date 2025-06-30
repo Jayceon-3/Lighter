@@ -7,11 +7,14 @@ Set the Data Type, Init logic, Update logic, View logic and Matcher logic here.
 @docs layer
 
 -}
+
 import Color exposing (..)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
-import Messenger.GeneralModel exposing (Matcher)
+import Messenger.Base exposing (UserEvent(..))
+import Messenger.GeneralModel exposing (..)
 import Messenger.Layer.Layer exposing (ConcreteLayer, LayerInit, LayerStorage, LayerUpdate, LayerUpdateRec, LayerView, genLayer)
+import Messenger.Scene.Scene exposing (SceneOutputMsg(..))
 import REGL.BuiltinPrograms as P
 import Scenes.Settings.SceneBase exposing (..)
 
@@ -27,7 +30,13 @@ init env initMsg =
 
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
 update env evt data =
-    ( data, [], ( env, False ) )
+    --( data, [], ( env, False ) )
+    case evt of
+        KeyDown 27 ->
+            ( data, [ Parent (SOMMsg (SOMChangeScene Nothing "Home")) ], ( env, False ) )
+
+        _ ->
+            ( data, [], ( env, False ) )
 
 
 updaterec : LayerUpdateRec SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
@@ -61,10 +70,13 @@ layer : LayerStorage SceneCommonData UserData LayerTarget LayerMsg SceneMsg
 layer =
     genLayer layercon
 
+
 guidance : String
-guidance = 
+guidance =
     """
     A/D: Move Left or Right
 
     W: Jump and Double Jump
+
+    Esc: Back to Home
     """

@@ -11,8 +11,10 @@ Set the Data Type, Init logic, Update logic, View logic and Matcher logic here.
 import Color exposing (..)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
-import Messenger.GeneralModel exposing (Matcher)
+import Messenger.Base exposing (UserEvent(..))
+import Messenger.GeneralModel exposing (..)
 import Messenger.Layer.Layer exposing (ConcreteLayer, LayerInit, LayerStorage, LayerUpdate, LayerUpdateRec, LayerView, genLayer)
+import Messenger.Scene.Scene exposing (SceneOutputMsg(..))
 import REGL.BuiltinPrograms as P
 import REGL.Common exposing (group)
 import REGL.Effects exposing (alphamult)
@@ -67,12 +69,14 @@ inSetButton x y =
         && (y >= setButtonY)
         && (y <= setButtonY + buttonHeight)
 
+
 inGameButton : Float -> Float -> Bool
 inGameButton x y =
     (x >= gameButtonX)
         && (x <= gameButtonX + buttonWidth)
         && (y >= gameButtonY)
         && (y <= gameButtonY + buttonHeight)
+
 
 init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
@@ -83,7 +87,20 @@ init env initMsg =
 
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
 update env evt data =
-    ( data, [], ( env, False ) )
+    --( data, [], ( env, False ) )
+    case evt of
+        MouseDown 0 ( x, y ) ->
+            if inSetButton x y then
+                ( data, [ Parent (SOMMsg (SOMChangeScene Nothing "Settings")) ], ( env, False ) )
+
+            else if inGameButton x y then
+                ( data, [ Parent (SOMMsg (SOMChangeScene Nothing "Level1")) ], ( env, False ) )
+
+            else
+                ( data, [], ( env, False ) )
+
+        _ ->
+            ( data, [], ( env, False ) )
 
 
 updaterec : LayerUpdateRec SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
@@ -98,7 +115,7 @@ view env data =
             P.textbox ( setButtonX, setButtonY ) (buttonHeight * data.size_set) "Settings" "consolas" Color.black
 
         game =
-            P.textbox ( gameButtonX, gameButtonX ) (buttonHeight * data.size_game) "Game" "consolas" Color.black
+            P.textbox ( gameButtonX, gameButtonY ) (buttonHeight * data.size_game) "Game" "consolas" Color.black
 
         background =
             P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white
