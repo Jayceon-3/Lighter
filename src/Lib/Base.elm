@@ -11,6 +11,8 @@ Base module for the game. Set the UserData and SceneMsg here.
 
 -}
 
+import SceneProtos.Game.Init as GameInit
+
 
 {-| SceneMsg
 
@@ -20,3 +22,4 @@ to send to a scene when switching scenes.
 -}
 type SceneMsg
     = NullSceneMsg
+    | GameInitData (GameInit.InitData SceneMsg)
