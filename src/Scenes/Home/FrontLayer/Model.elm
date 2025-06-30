@@ -28,7 +28,6 @@ type alias Data =
     }
 
 
-
 setButtonX : Float
 setButtonX =
     850
@@ -135,7 +134,8 @@ update env evt data =
                     now - data.current_time
 
                 updatedData =
-                    if dt > 10 then  --10ms
+                    if dt > 10 then
+                        --10ms
                         if inSetButton x y then
                             { data
                                 | size_set = adjustSize 1.1 data.size_set
@@ -178,7 +178,9 @@ view env data =
             P.textbox ( gameButtonX, gameButtonY ) (buttonHeight * data.size_game) "Game" "consolas" Color.black
 
         background =
-            P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white --remain to be changed
+            P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white
+
+        --remain to be changed
     in
     group [ alphamult 1 ]
         [ background

@@ -44,7 +44,6 @@ update env evnt data basedata =
     let
         -- _ =
         --     Debug.log "direction: " data.state.direction
-
         dat =
             jumprestore data
 
