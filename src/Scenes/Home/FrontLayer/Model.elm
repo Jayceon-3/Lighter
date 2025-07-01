@@ -24,12 +24,9 @@ import Scenes.Home.SceneBase exposing (..)
 type alias Data =
     { size_set : Float
     , size_game : Float
+    , current_time : Float
     }
 
-
-type Item
-    = Settings
-    | Game
 
 
 setButtonX : Float
@@ -39,7 +36,7 @@ setButtonX =
 
 setButtonY : Float
 setButtonY =
-    400
+    500
 
 
 buttonWidth : Float
@@ -59,7 +56,7 @@ gameButtonX =
 
 gameButtonY : Float
 gameButtonY =
-    550
+    650
 
 
 inSetButton : Float -> Float -> Bool
@@ -82,7 +79,34 @@ init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
     { size_set = 1.0
     , size_game = 1.0
+    , current_time = env.globalData.currentTimeStamp
     }
+
+
+adjustSize : Float -> Float -> Float
+adjustSize targetSize size =
+    let
+        speed =
+            0.01
+
+        newSize =
+            if size < targetSize then
+                size + speed
+
+            else if size > targetSize then
+                size - speed
+
+            else
+                size
+    in
+    if newSize < 1.0 then
+        1.0
+
+    else if newSize > 1.1 then
+        1.1
+
+    else
+        newSize
 
 
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
@@ -100,7 +124,43 @@ update env evt data =
                 ( data, [], ( env, False ) )
 
         _ ->
-            ( data, [], ( env, False ) )
+            let
+                ( x, y ) =
+                    env.globalData.mousePos
+
+                now =
+                    env.globalData.currentTimeStamp
+
+                dt =
+                    now - data.current_time
+
+                updatedData =
+                    if dt > 10 then  --10ms
+                        if inSetButton x y then
+                            { data
+                                | size_set = adjustSize 1.1 data.size_set
+                                , size_game = adjustSize 1.0 data.size_game
+                                , current_time = now
+                            }
+
+                        else if inGameButton x y then
+                            { data
+                                | size_game = adjustSize 1.1 data.size_game
+                                , size_set = adjustSize 1.0 data.size_set
+                                , current_time = now
+                            }
+
+                        else
+                            { data
+                                | size_game = adjustSize 1.0 data.size_game
+                                , size_set = adjustSize 1.0 data.size_set
+                                , current_time = now
+                            }
+
+                    else
+                        data
+            in
+            ( updatedData, [], ( env, False ) )
 
 
 updaterec : LayerUpdateRec SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
@@ -118,7 +178,7 @@ view env data =
             P.textbox ( gameButtonX, gameButtonY ) (buttonHeight * data.size_game) "Game" "consolas" Color.black
 
         background =
-            P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white
+            P.rect ( 0, 0 ) ( 1920, 1080 ) Color.white --remain to be changed
     in
     group [ alphamult 1 ]
         [ background

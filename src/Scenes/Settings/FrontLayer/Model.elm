@@ -80,3 +80,4 @@ guidance =
 
     Esc: Back to Home
     """
+--esc remains to be implemented in game mode
