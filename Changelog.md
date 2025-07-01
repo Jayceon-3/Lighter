@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Currently, nothing unreleased.
 
+## [0.3.0] - 2025-7-1
+
+### Added
+
+- Component: Bullet
+
+- Shoot feature
+
+- Weapon direction
+
 ## [0.2.0] - 2025-6-30
 
 ### Added
