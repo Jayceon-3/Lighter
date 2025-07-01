@@ -53,7 +53,11 @@ updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentT
 updaterec env msg data basedata =
     case msg of
         FireMsg bullet ->
-            ( ( { data | bullets = bullet :: data.bullets }, basedata ), [], env )
+            let
+                bul =
+                    bullet :: data.bullets
+            in
+            ( ( { data | bullets = bul }, basedata ), [], env )
 
         _ ->
             ( ( data, basedata ), [], env )
