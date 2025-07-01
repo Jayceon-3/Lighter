@@ -10,7 +10,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Currently, nothing unreleased.
 
-## [0.0.1] - 2025-6-29
+## [0.2.0] - 2025-6-30
+
+### Added
+
+- Component: Weapon
+
+- Basic weapon movement
+
+- Angle movement of weapon
+
+- Player direction change
+
+## [0.1.0] - 2025-6-29
 
 ### Added
 
