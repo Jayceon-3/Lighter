@@ -23,6 +23,7 @@ type ComponentMsg
     | BulletInitMsg BulletInit.InitData
     | PlayerStateMsg PlayerInit.State
     | ChangeDir Float
+    | FireMsg BulletInit.SingleBullet
 
 
 {-| Component target

@@ -41,17 +41,35 @@ init env initMsg =
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 update env evnt data basedata =
-    ( ( data, basedata ), [], ( env, False ) )
+    case evnt of
+        Tick dt ->
+            let
+                newBullets =
+                    bulletMove data.bullets
+            in
+            ( ( { data | bullets = newBullets }, basedata ), [], ( env, False ) )
+
+        _ ->
+            ( ( data, basedata ), [], ( env, False ) )
 
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 updaterec env msg data basedata =
-    ( ( data, basedata ), [], env )
+    case msg of
+        FireMsg bullet ->
+            let
+                bullets =
+                    bullet :: data.bullets
+            in
+            ( ( { data | bullets = bullets }, basedata ), [], env )
+
+        _ ->
+            ( ( data, basedata ), [], env )
 
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    ( P.empty, 0 )
+    ( group [] (List.map (\bullet -> P.rectCentered bullet.position ( 10, 5 ) bullet.angle Color.purple) data.bullets), 0 )
 
 
 matcher : ComponentMatcher Data BaseData ComponentTarget
@@ -74,3 +92,19 @@ componentcon =
 component : ComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData SceneMsg
 component =
     genComponent componentcon
+
+
+bulletMove : List SingleBullet -> List SingleBullet
+bulletMove bullets =
+    let
+        speed =
+            5
+
+        newBullets =
+            List.map
+                (\bullet ->
+                    { bullet | position = ( Tuple.first bullet.position + speed * cos bullet.angle * bullet.direction, Tuple.second bullet.position - speed * sin bullet.angle * bullet.direction ) }
+                )
+                bullets
+    in
+    newBullets

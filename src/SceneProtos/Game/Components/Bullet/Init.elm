@@ -15,6 +15,7 @@ type alias SingleBullet =
     , direction : Float
     , angle : Float
     , bulletType : Int
+    , attack : Float
     }
 
 

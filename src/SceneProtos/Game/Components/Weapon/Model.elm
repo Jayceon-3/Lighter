@@ -17,6 +17,7 @@ import Messenger.Scene.Scene exposing (SceneOutputMsg(..))
 import REGL.BuiltinPrograms as P
 import REGL.Common exposing (group)
 import REGL.Effects exposing (alphamult)
+import SceneProtos.Game.Components.Bullet.Init exposing (SingleBullet)
 import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg(..), ComponentTarget)
 import SceneProtos.Game.Components.Weapon.Init exposing (State)
 import SceneProtos.Game.SceneBase exposing (SceneCommonData)
@@ -57,8 +58,20 @@ update env evnt data basedata =
 
         MouseDown 0 ( x0, y0 ) ->
             let
+                _ =
+                    Debug.log "bullet pos: " ( Tuple.first data.state.position, Tuple.first data.state.position )
+
                 deltaX =
                     x0 - Tuple.first data.state.position
+
+                x1 =
+                    Tuple.first data.state.position + 30 * cos data.state.angle * data.state.direction
+
+                y1 =
+                    Tuple.second data.state.position - 30 * sin data.state.angle * data.state.direction
+
+                bullet =
+                    { position = ( x1, y1 ), direction = data.state.direction, angle = data.state.angle, bulletType = 1, attack = 5 }
             in
             if data.state.direction == 1 && deltaX < 0 then
                 ( ( data, basedata ), [ Other ( "Player", ChangeDir -1 ) ], ( env, False ) )
@@ -67,7 +80,7 @@ update env evnt data basedata =
                 ( ( data, basedata ), [ Other ( "Player", ChangeDir 1 ) ], ( env, False ) )
 
             else
-                ( ( data, basedata ), [], ( env, False ) )
+                ( ( data, basedata ), [ Other ( "Bullet", FireMsg bullet ) ], ( env, False ) )
 
         _ ->
             ( ( data, basedata ), [], ( env, False ) )
@@ -122,9 +135,8 @@ decideAngle mousePos weaponpos direction =
         --         max ((Tuple.first playerpos) + 50 ) env.globalData.mousePos
         --     else
         --         min ((Tuple.first playerpos) - 50 ) env.globalData.mousePos
-        _ =
-            Debug.log "angle " angle
-
+        -- _ =
+        --     Debug.log "angle " angle
         slope =
             (Tuple.second weaponpos - Tuple.second mousePos) / (Tuple.first mousePos - Tuple.first weaponpos)
 
