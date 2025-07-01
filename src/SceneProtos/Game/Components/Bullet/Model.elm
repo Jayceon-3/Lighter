@@ -43,7 +43,7 @@ update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget 
 update env evnt data basedata =
     case evnt of
         Tick dt ->
-            ( ( { data | bullets = bulletMove data.bullets }, basedata ), [ Other ( "Enemy", Bullets data.bullet ) ], ( env, False ) )
+            ( ( { data | bullets = bulletMove data.bullets }, basedata ), [ Other ( "Enemy", Bullets data.bullets ) ], ( env, False ) )
 
         _ ->
             ( ( data, basedata ), [], ( env, False ) )
