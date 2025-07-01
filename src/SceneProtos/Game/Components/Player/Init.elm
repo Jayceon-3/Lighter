@@ -22,6 +22,7 @@ type alias State =
     , a_pressed : Bool
     , d_pressed : Bool
     , canjump : Int
+    , weaponDir : Float
     }
 
 

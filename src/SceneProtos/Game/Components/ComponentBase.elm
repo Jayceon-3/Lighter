@@ -22,7 +22,7 @@ type ComponentMsg
     | WeaponInitMsg WeaponInit.InitData
     | BulletInitMsg BulletInit.InitData
     | PlayerStateMsg PlayerInit.State
-    | ChangeDir Float
+    | WeaponDir Float
     | FireMsg BulletInit.SingleBullet
 
 

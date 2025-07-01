@@ -36,12 +36,15 @@ init env initMsg =
             ( { state = data.state, id = data.id, ty = data.ty }, () )
 
         _ ->
-            ( { state = { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False, canjump = 1 }, id = 1, ty = "Player" }, () )
+            ( { state = { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False, canjump = 1, weaponDir = 1 }, id = 1, ty = "Player" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 update env evnt data basedata =
     let
+        -- _ =
+        --     Debug.log "direction: " data.state.direction
+
         dat =
             jumprestore data
 
@@ -129,8 +132,8 @@ updaterec env msg data basedata =
             data.state
     in
     case msg of
-        ChangeDir dir ->
-            ( ( { data | state = { sta | direction = dir } }, basedata ), [], env )
+        WeaponDir direction ->
+            ( ( { data | state = { sta | weaponDir = direction } }, basedata ), [], env )
 
         _ ->
             ( ( data, basedata ), [], env )
@@ -138,7 +141,7 @@ updaterec env msg data basedata =
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    if data.state.direction == 1 then
+    if data.state.weaponDir == 1 then
         ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rectCentered ( Tuple.first data.state.position - 10, Tuple.second data.state.position - 30 ) ( 20, 20 ) 0 Color.yellow, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
 
     else
