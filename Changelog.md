@@ -20,6 +20,8 @@ Currently, nothing unreleased.
 
 - Weapon direction
 
+- Text size changing feature
+
 ## [0.2.0] - 2025-6-30
 
 ### Added
