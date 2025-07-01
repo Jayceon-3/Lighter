@@ -10,8 +10,10 @@ module SceneProtos.Game.Components.Enemy.Init exposing (..)
 -}
 
 
-type alias Bullet =
+type alias EnemyBullet =
     { position : ( Float, Float )
+    , direction : Float
+    , angle : Float
     , attack : Float
     }
 
@@ -24,11 +26,12 @@ type Enemytype
 
 type alias Enemy =
     { position : ( Float, Float )
-    , direction : Float -- 1 for right, -1 for left
+    , defaultposition : ( Float, Float )
     , vx : Float
     , hp : Float
     , normal : Bool
     , enemytype : Enemytype
+    , angle : Float
     }
 
 
@@ -38,5 +41,5 @@ type alias InitData =
     { id : Int
     , ty : String
     , enemy : List Enemy
-    , bullet : List Bullet
+    , enemybullet : List EnemyBullet
     }

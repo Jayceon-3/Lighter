@@ -14,14 +14,15 @@ import REGL.BuiltinPrograms as P
 import REGL.Common exposing (group)
 import REGL.Effects exposing (alphamult)
 import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg(..), ComponentTarget)
+import SceneProtos.Game.Components.Enemy.Enemylogic exposing (..)
 import SceneProtos.Game.Components.Enemy.Init exposing (..)
-import SceneProtos.Game.SceneBase exposing (SceneCommonData)
 
 
 type alias Data =
     { id : Int
     , ty : String
     , enemy : List Enemy
+    , enemybullet : List EnemyBullet
     }
 
 
@@ -29,10 +30,10 @@ init : ComponentInit SceneCommonData UserData ComponentMsg Data BaseData
 init env initMsg =
     case initMsg of
         EnemyInitMsg data ->
-            ( { enemy = data.enemy, id = data.id, ty = data.ty }, () )
+            ( { id = data.id, ty = data.ty, enemy = data.enemy, enemybullet = data.enemybullet }, () )
 
         _ ->
-            ( { enemy = [], id = 2, ty = "Enemy" }, () )
+            ( { id = 2, ty = "Enemy", enemy = [], enemybullet = [] }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
@@ -42,7 +43,12 @@ update env evnt data basedata =
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 updaterec env msg data basedata =
-    ( ( data, basedata ), [], env )
+    case env of
+        Bullets bullets ->
+            ( ( { data | enemy = refreshblood data.enemy }, basedata ), [], env )
+
+        _ ->
+            ( ( data, basedata ), [], env )
 
 
 view : ComponentView SceneCommonData UserData Data BaseData

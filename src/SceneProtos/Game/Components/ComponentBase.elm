@@ -1,4 +1,4 @@
-module SceneProtos.Game.Components.ComponentBase exposing (ComponentMsg(..), ComponentTarget, BaseData)
+module SceneProtos.Game.Components.ComponentBase exposing (..)
 
 {-|
 
@@ -10,7 +10,11 @@ module SceneProtos.Game.Components.ComponentBase exposing (ComponentMsg(..), Com
 -}
 
 import SceneProtos.Game.Components.Bullet.Init as BulletInit
+<<<<<<< HEAD
 import SceneProtos.Game.Components.Enemy.Init as EnemyInit
+=======
+import SceneProtos.Game.Components.Enemy.Init as EnemyInit exposing (..)
+>>>>>>> caf196d (feat: side changes of decrease blood logic of enemies)
 import SceneProtos.Game.Components.Player.Init as PlayerInit
 import SceneProtos.Game.Components.Weapon.Init as WeaponInit
 
@@ -27,6 +31,8 @@ type ComponentMsg
     | FireMsg BulletInit.SingleBullet
     | EnemyInitMsg EnemyInit.InitData
     | Bullets (List Bullet)
+    | EnemyBullets (List EnemyInit.EnemyBullet)
+    | PlayerMsg PlayerInit.State
 
 
 {-| Component target
@@ -39,10 +45,3 @@ type alias ComponentTarget =
 -}
 type alias BaseData =
     ()
-
-
-type alias Bullet =
-    { position : ( Float, Float )
-    , attack : Float
-    , side : Bool --here true means this bullet is from player, false means this bullet is from enemy
-    }
