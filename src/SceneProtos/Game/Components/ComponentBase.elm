@@ -9,6 +9,7 @@ module SceneProtos.Game.Components.ComponentBase exposing (ComponentMsg(..), Com
 
 -}
 
+import SceneProtos.Game.Components.Bullet.Init as BulletInit
 import SceneProtos.Game.Components.Player.Init as PlayerInit
 import SceneProtos.Game.Components.Weapon.Init as WeaponInit
 
@@ -19,6 +20,7 @@ type ComponentMsg
     = NullComponentMsg
     | PlayerInitMsg PlayerInit.InitData
     | WeaponInitMsg WeaponInit.InitData
+    | BulletInitMsg BulletInit.InitData
     | PlayerStateMsg PlayerInit.State
     | ChangeDir Float
 

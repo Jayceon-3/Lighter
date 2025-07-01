@@ -6,21 +6,37 @@ module SceneProtos.Game.Components.Bullet.Model exposing (component)
 
 -}
 
+import Color exposing (Color)
+import Json.Decode exposing (bool)
 import Lib.Base exposing (SceneMsg)
 import Lib.UserData exposing (UserData)
+import Messenger.Base exposing (..)
 import Messenger.Component.Component exposing (ComponentInit, ComponentMatcher, ComponentStorage, ComponentUpdate, ComponentUpdateRec, ComponentView, ConcreteUserComponent, genComponent)
+import Messenger.GeneralModel exposing (..)
+import Messenger.Scene.Scene exposing (SceneOutputMsg(..))
 import REGL.BuiltinPrograms as P
-import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg, ComponentTarget)
+import REGL.Common exposing (group)
+import REGL.Effects exposing (alphamult)
+import SceneProtos.Game.Components.Bullet.Init exposing (SingleBullet)
+import SceneProtos.Game.Components.ComponentBase exposing (BaseData, ComponentMsg(..), ComponentTarget)
 import SceneProtos.Game.SceneBase exposing (SceneCommonData)
 
 
 type alias Data =
-    {}
+    { id : Int
+    , ty : String
+    , bullets : List SingleBullet
+    }
 
 
 init : ComponentInit SceneCommonData UserData ComponentMsg Data BaseData
 init env initMsg =
-    ( {}, () )
+    case initMsg of
+        BulletInitMsg data ->
+            ( { bullets = data.bullets, id = data.id, ty = data.ty }, () )
+
+        _ ->
+            ( { bullets = [], id = 3, ty = "Bullet" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData

@@ -1,4 +1,4 @@
-module SceneProtos.Game.Components.Bullet.Init exposing (InitData)
+module SceneProtos.Game.Components.Bullet.Init exposing (..)
 
 {-|
 
@@ -10,7 +10,18 @@ module SceneProtos.Game.Components.Bullet.Init exposing (InitData)
 -}
 
 
+type alias SingleBullet =
+    { position : ( Float, Float )
+    , direction : Float
+    , angle : Float
+    , bulletType : Int
+    }
+
+
 {-| The data used to initialize the scene
 -}
 type alias InitData =
-    {}
+    { id : Int
+    , ty : String
+    , bullets : List SingleBullet
+    }
