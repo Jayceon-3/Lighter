@@ -33,7 +33,7 @@ init env initMsg =
             ( { id = data.id, ty = data.ty, enemy = data.enemy, enemybullet = data.enemybullet }, () )
 
         _ ->
-            ( { id = 2, ty = "Enemy", enemy = [], enemybullet = [] }, () )
+            ( { id = 4, ty = "Enemy", enemy = [], enemybullet = [] }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
