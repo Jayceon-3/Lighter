@@ -22,11 +22,19 @@ Currently, nothing unreleased.
 
 - Player direction change
 
-- Component: Bullet
+- Scene: Home
 
-- Shoot feature
+- Layer: Frontlayer under scene Home
 
-- Weapon direction
+- Raw home page
+
+- Scene: Settings
+
+- Layer: Frontlayer under scene Settings
+
+- Guidance in Settings
+
+- Transition bettween settings and homepage
 
 ## [0.1.0] - 2025-6-29
 
