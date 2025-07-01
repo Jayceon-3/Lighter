@@ -64,6 +64,8 @@ Open the file ***index.html*** in your browser. Then enjoy the game!
 
 - ***W***: Jump and double jump
 
+- ***Left mouse button***: Shoot a bullet.
+
 # Contributing
 
 If anyone would like to contribute to it, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

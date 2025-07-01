@@ -36,12 +36,14 @@ init env initMsg =
             ( { state = data.state, id = data.id, ty = data.ty }, () )
 
         _ ->
-            ( { state = { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False, canjump = 1 }, id = 1, ty = "Player" }, () )
+            ( { state = { position = ( 100, 700 ), vx = 0, vy = 0, direction = 1, hp = 100, alive = True, a_pressed = False, d_pressed = False, canjump = 1, weaponDir = 1 }, id = 1, ty = "Player" }, () )
 
 
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 update env evnt data basedata =
     let
+        -- _ =
+        --     Debug.log "direction: " data.state.direction
         dat =
             jumprestore data
 
@@ -92,10 +94,10 @@ update env evnt data basedata =
             in
             if stat.a_pressed || stat.d_pressed then
                 -- move env { data | state = stat } basedata
-                ( ( { dat | state = stat2 }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat2 }, basedata ), [ Other ( "Weapon", PlayerStateMsg stat2 ) ], ( env, False ) )
 
             else
-                ( ( { dat | state = stat }, basedata ), [], ( env, False ) )
+                ( ( { dat | state = stat }, basedata ), [ Other ( "Weapon", PlayerStateMsg stat ) ], ( env, False ) )
 
         KeyDown 65 ->
             -- move_left_or_right env data basedata -1
@@ -124,12 +126,28 @@ update env evnt data basedata =
 
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 updaterec env msg data basedata =
-    ( ( data, basedata ), [], env )
+    let
+        oldstate =
+            data.state
+    in
+    case msg of
+        WeaponDir direction ->
+            ( ( { data | state = { oldstate | weaponDir = direction } }, basedata ), [], env )
+
+        EnemyBullets bullets ->
+            ( ( { data | state = { oldstate | hp = data.state.hp - List.foldl (\b acc -> b.attack + acc) 0 bullets } }, basedata ), [], env )
+
+        _ ->
+            ( ( data, basedata ), [], env )
 
 
 view : ComponentView SceneCommonData UserData Data BaseData
 view env data basedata =
-    ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
+    if data.state.weaponDir == 1 then
+        ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rectCentered ( Tuple.first data.state.position - 10, Tuple.second data.state.position - 30 ) ( 20, 20 ) 0 Color.yellow, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
+
+    else
+        ( group [] [ P.rectCentered data.state.position ( 30, 60 ) 0 Color.blue, P.rectCentered ( Tuple.first data.state.position + 10, Tuple.second data.state.position - 30 ) ( 20, 20 ) 0 Color.yellow, P.rect ( 0, 730 ) ( 1920, 5 ) Color.black ], 0 )
 
 
 matcher : ComponentMatcher Data BaseData ComponentTarget
