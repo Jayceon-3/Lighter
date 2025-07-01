@@ -22,6 +22,12 @@ Currently, nothing unreleased.
 
 - Player direction change
 
+- Component: Bullet
+
+- Shoot feature
+
+- Weapon direction
+
 ## [0.1.0] - 2025-6-29
 
 ### Added
