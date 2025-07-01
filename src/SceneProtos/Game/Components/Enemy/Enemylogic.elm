@@ -130,7 +130,7 @@ movebullet bullets state =
 
 
 
---这里还要判定一下state change
+--still need to judge state change
 
 
 judgeactivate : Enemy -> State -> Bool
@@ -155,9 +155,13 @@ judgestate enemy =
         enemy
 
 
+
+--judgeactivate not included
+
+
 statechange : List Enemy -> State -> List Enemy
 statechange enemy state =
-    List.map (\e -> judgestate (judgeactivate e state)) enemy
+    List.map (\e -> judgestate e) enemy
 
 
 
