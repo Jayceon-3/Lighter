@@ -23,14 +23,19 @@ import SceneProtos.Game.Components.Weapon.Init as WeaponInit
 -}
 type ComponentMsg
     = NullComponentMsg
+<<<<<<< HEAD
     | PlayerInitMsg PlayerInit.InitData
     | WeaponInitMsg WeaponInit.InitData
     | BulletInitMsg BulletInit.InitData
     | PlayerStateMsg PlayerInit.State
     | WeaponDir Float
     | FireMsg BulletInit.SingleBullet
+=======
+    | BulletInitMsg BulletInit.InitData
+>>>>>>> 0ee66e7 (feat(bullet and enemy): update the player bullet that can hurt the enemies)
     | EnemyInitMsg EnemyInit.InitData
-    | Bullets (List Bullet)
+    | PlayerInitMsg PlayerInit.InitData
+    | Bullets (List BulletInit.Bullet)
     | EnemyBullets (List EnemyInit.EnemyBullet)
     | PlayerMsg PlayerInit.State
 
