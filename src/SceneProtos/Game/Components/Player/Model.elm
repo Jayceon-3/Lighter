@@ -127,12 +127,15 @@ update env evnt data basedata =
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
 updaterec env msg data basedata =
     let
-        sta =
+        oldstate =
             data.state
     in
     case msg of
         WeaponDir direction ->
-            ( ( { data | state = { sta | weaponDir = direction } }, basedata ), [], env )
+            ( ( { data | state = { oldstate | weaponDir = direction } }, basedata ), [], env )
+
+        EnemyBullets bullets ->
+            ( ( { data | state = { oldstate | hp = data.state.hp - List.foldl (\b acc -> b.attack + acc) 0 bullets } }, basedata ), [], env )
 
         _ ->
             ( ( data, basedata ), [], env )

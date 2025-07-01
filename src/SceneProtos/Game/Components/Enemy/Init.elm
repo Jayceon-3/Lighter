@@ -24,14 +24,22 @@ type Enemytype
     | Dead
 
 
+type Enemystate
+    = Default
+    | Buffer
+    | Attack
+
+
 type alias Enemy =
     { position : ( Float, Float )
     , defaultposition : ( Float, Float )
+    , direction : Float
     , vx : Float
     , hp : Float
-    , normal : Bool
+    , state : Enemystate
     , enemytype : Enemytype
     , angle : Float
+    , time : Float
     }
 
 
