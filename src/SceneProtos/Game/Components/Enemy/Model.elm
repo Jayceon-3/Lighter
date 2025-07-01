@@ -45,7 +45,7 @@ updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentT
 updaterec env msg data basedata =
     case env of
         Bullets bullets ->
-            ( ( { data | enemy = refreshblood data.enemy }, basedata ), [], env )
+            ( ( { data | enemy = refreshblood data.enemy bullets }, basedata ), [], env )
 
         _ ->
             ( ( data, basedata ), [], env )

@@ -8,6 +8,7 @@ import SceneProtos.Game.Components.Enemy.Enemylogic exposing (..)
 import SceneProtos.Game.Components.Enemy.Init exposing (..)
 import SceneProtos.Game.Components.Player.Init exposing (..)
 import SceneProtos.Game.SceneBase exposing (SceneCommonData)
+import Temperature exposing (Temperature)
 
 
 distance : ( Float, Float ) -> ( Float, Float ) -> Float
@@ -22,6 +23,8 @@ move ( a, b ) ( c, d ) =
 
 
 -- these are move changes
+-- dead not written
+-- Buffer state don't move, therefore not included here
 -- when enemy is in default mode
 
 
@@ -75,13 +78,34 @@ normalmove enemy state =
         enemy
 
 
+advancedmove : Enemy -> Env SceneCommonData UserData -> Enemy
+advancedmove enemy env =
+    if enemy.time <= env.globalData.sceneStartTime - 1000 then
+        { enemy | time = env.globalData.sceneStartTime }
 
--- these are state change judgements
--- refresh the bullets
+    else
+        enemy
+
+
+
+{-
+   deadmove : Enemy -> State -> Enemy
+   deadmove enemy=
+       let
+           target =
+               move state.position (-25 * state.direction , 0 )
+           vector =
+               move state.position (-Tuple.first enemy.position,-Tuple.second enemy.position)
+           movedir =
+               atan2 (Tuple.second vector) (Tuple.first vector)
+           newenemy =
+
+-}
+-- refresh the bullets, including new bullets and moving
 -- all enemies will enter this function
 
 
-refreshbullet : Enemy -> List EnemyBullet -> Env SceneCommonData UserData -> ( List Enemy, List EnemyBullet )
+refreshbullet : List Enemy -> List EnemyBullet -> Env SceneCommonData UserData -> List EnemyBullet
 refreshbullet enemy bullets env =
     let
         temp =
@@ -89,19 +113,51 @@ refreshbullet enemy bullets env =
 
         newbullets =
             List.map (\e -> { position = e.position, direction = e.direction, angle = -pi / 2 + pi * e.direction, attack = 5 }) temp
-
-        newenemies =
-            List.map
-                (\e ->
-                    if e.enemytype == Advanced && e.enemystate == Attack && e.time <= env.globalData.sceneStartTime - 1000 then
-                        { e | time = env.globalData.sceneStartTime }
-
-                    else
-                        e
-                )
-                enemy
     in
-    ( newenemies, bullets ++ newbullets )
+    bullets ++ newbullets
+
+
+movebullet : List EnemyBullet -> State -> List EnemyBullet
+movebullet bullets state =
+    let
+        temp =
+            List.map (\b -> { b | position = move ( 2 * cos b.direction, 2 * sin b.direction ) }) bullets
+
+        newbullets =
+            List.filter (\b -> distance state.position b.position > 5) temp
+    in
+    newbullets
+
+
+
+--这里还要判定一下state change
+
+
+judgeactivate : Enemy -> State -> Bool
+judgeactivate enemy state =
+    abs (Tuple.first enemy.position - Tuple.first state.position) < 75 && abs (Tuple.second enemy.position - Tuple.second state.position) < 20
+
+
+
+-- the range of effective attack is 40*40
+-- the hp bounds are 0, 50, 150
+
+
+judgestate : Enemy -> Enemy
+judgestate enemy =
+    if enemy.hp > 0 && enemy.hp <= 50 then
+        { enemy | enemytype = Normal }
+
+    else if enemy.hp <= 0 then
+        { enemy | enemytype = Dead }
+
+    else
+        enemy
+
+
+statechange : List Enemy -> State -> List Enemy
+statechange enemy state =
+    List.map (\e -> judgestate (judgeactivate e state)) enemy
 
 
 
@@ -126,8 +182,4 @@ decreaseblood enemy bullets =
 
 refreshblood : List Enemy -> List Bullet -> List Enemy
 refreshblood enemys bullets =
-    let
-        tempenemy =
-            List.map (\e -> decreaseblood e bullets) enemys
-    in
-    List.filter (\e -> e.hp > 0) tempenemy
+    List.map (\e -> decreaseblood e bullets) enemys

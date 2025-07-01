@@ -36,7 +36,7 @@ type alias Enemy =
     , direction : Float
     , vx : Float
     , hp : Float
-    , state : Enemystate
+    , enemystate : Enemystate
     , enemytype : Enemytype
     , angle : Float
     , time : Float
