@@ -17,6 +17,7 @@ Basic data for the scene.
 
 -}
 
+import SceneProtos.Game.Front.Init as FrontInit
 import SceneProtos.Game.Main.Init as MainInit
 
 
@@ -37,3 +38,4 @@ type alias SceneCommonData =
 type LayerMsg scenemsg
     = NullLayerMsg
     | MainInitData (MainInit.InitData SceneCommonData scenemsg)
+    | FrontInitData (FrontInit.InitData SceneCommonData scenemsg)

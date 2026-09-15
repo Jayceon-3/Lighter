@@ -11,6 +11,7 @@ import Lib.UserData exposing (UserData)
 import Messenger.Base exposing (Env, addCommonData)
 import Messenger.Scene.LayeredScene exposing (LayeredSceneEffectFunc, LayeredSceneLevelInit, LayeredSceneProtoInit, genLayeredScene, initCompose)
 import Messenger.Scene.Scene exposing (SceneStorage)
+import SceneProtos.Game.Front.Model as Front exposing (..)
 import SceneProtos.Game.Init exposing (InitData)
 import SceneProtos.Game.Main.Model as Main exposing (..)
 import SceneProtos.Game.SceneBase exposing (..)
@@ -39,11 +40,21 @@ init env data =
                     Nothing ->
                         []
                 )
+
+        -- comps2 =
+        --     List.map (\x -> x envcd)
+        --         (case data of
+        --             Just d ->
+        --                 d.objects2
+        --             Nothing ->
+        --                 []
+        --         )
     in
     { renderSettings = []
     , commonData = cd
     , layers =
-        [ Main.layer (MainInitData { components = comps }) envcd ]
+        [ Main.layer (MainInitData { components = comps }) envcd
+        ]
     }
 
 

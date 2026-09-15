@@ -19,4 +19,6 @@ import SceneProtos.Game.SceneBase exposing (SceneCommonData)
 -}
 type alias InitData scenemsg =
     { objects : List (LevelComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData scenemsg)
+
+    -- , objects2 : List (LevelComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData scenemsg)
     }

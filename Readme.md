@@ -1,73 +1,98 @@
-# README
+# Lighter
 
-# Project 2
+Lighter is a browser game built with [Elm](https://elm-lang.org/) and the
+[Messenger](https://elm-messenger.netlify.app/) game framework. The current
+version includes a home screen, settings screen, one playable level, player
+movement, double jump, mouse aiming, weapons, bullets, and enemies.
 
-This is the project 2 for SilverFOCS-25summer.
+This repository was originally developed as a course project and is now being
+maintained as an open source project.
 
-Project name:
+## Features
 
-Author: p2team06
+- Elm 0.19.1 application using Messenger and REGL.
+- Platformer-style player movement with double jump.
+- Mouse-controlled weapon direction and shooting.
+- Scene-based structure for home, settings, and gameplay.
+- Local browser build with static assets under `public/`.
 
-Team name: ***VOID-X***
-
-Members: Lin mingqing, Yin Xiaotong, Zhang Dingxuan, Zhang Zihao.
-
-# Start the game
-
-## Directly play
-
-If want to play it in your browser directly, visit our official site for [p2](https://focs.ji.sjtu.edu.cn/silverfocs/project/2025/p2) and choose the game of p2team06.
-
-If want to play it locally, follow the steps below.
-
-## Dependency
+## Requirements
 
 - [Elm 0.19.1](https://guide.elm-lang.org/install/elm.html)
+- [elm-format](https://github.com/avh4/elm-format)
+- `make`
+- Python 3, only needed for the local static file server
+- Node.js with `uglify-js`, only needed for optimized release builds
 
-- Some elm packages, you can refer to this [repo](https://focs.ji.sjtu.edu.cn/git/SilverFOCS-25su/elm-packages) or clone the repo using *ssh://git@focs.ji.sjtu.edu.cn:2222/SilverFOCS-25su/elm-packages.git*
+Elm dependencies are declared in `elm.json` and will be downloaded by Elm during
+the first build.
 
-- Node.js (Optional, for local development server only)
+## Getting Started
 
-- Messenger ("linsyking/messenger-core": "17.0.1"): That is our special game engine. To know more about it, you can refer to [this](https://elm-messenger.netlify.app/)
+Clone the repository and enter the project directory:
 
-## Installation
+```sh
+git clone <repository-url>
+cd Lighter
+```
 
-Clone the repo or download the package to your computer, open your terminal and come to the root directory.
+Build the development version:
 
-## Make
+```sh
+make
+```
 
-Run in the project root directory: ***make***
+This generates `build/main.js` and copies the required static assets. After the
+build finishes, open `index.html` in your browser.
 
-## Run
+You can also start a local static server:
 
-Open the file ***index.html*** in your browser. Then enjoy the game!
+```sh
+make host
+```
 
-# Operation
+Then open [http://localhost:8123]().
 
-## Operation
+## Release Build
 
-- ***A/D***: Move left or right
+For an optimized build, install `uglify-js` first:
 
-- ***W***: Jump and double jump
+```sh
+npm install --global uglify-js
+```
 
-- ***Left mouse button***: Shoot a bullet.
+Then run:
 
-# Contributing
+```sh
+make release
+```
 
-If anyone would like to contribute to it, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## Controls
 
-Please make sure to update tests as appropriate.
+- `A` / `D`: Move left or right
+- `W`: Jump and double jump
+- Left mouse button: Shoot
 
-# Authors and acknowledgment
+## Project Structure
 
-The authors of this project is p2team06 in SilverFOCS-25summer, with the members:
+- `src/Main.elm`: Elm application entry point
+- `src/MainConfig.elm`: global game configuration
+- `src/Scenes/`: home, settings, and level scenes
+- `src/SceneProtos/Game/`: gameplay components and scene prototype
+- `public/`: HTML, CSS, and JavaScript runtime assets
+- `build/`: generated build output
 
-Lin mingqing, Yin Xiaotong, Zhang Dingxuan, Zhang Zihao.
+## Contributing
 
-We have much appreciation to everyone who has contributed to the project.
+Contributions are welcome. For larger changes, please open an issue first to
+discuss the proposed direction. When submitting a pull request, include a short
+summary of the change and any manual testing you performed.
 
-Extra acknowledgement for SilverFOCS Incubator and UM-SJTU JI.
+## Acknowledgements
 
-# License
+Lighter was first created as a course project. Thanks to the original project
+team, the SilverFOCS Incubator, UM-SJTU JI, and the Elm/Messenger communities.
 
-[MIT](https://choosealicense.com/licenses/mit/)
+## License
+
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).

@@ -1,6 +1,11 @@
 module Scenes.Settings.Model exposing (scene)
 
-{-| Scene configuration module
+{-|
+
+
+# Model
+
+Scene configuration module
 
 @docs scene
 

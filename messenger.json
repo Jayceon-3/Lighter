@@ -17,13 +17,46 @@
         },
         "Settings": {
             "raw": false
+        },
+        "Level4": {
+            "sceneproto": "Game",
+            "raw": false
+        },
+        "Level2": {
+            "sceneproto": "Game",
+            "raw": false
+        },
+        "Level3": {
+            "sceneproto": "Game",
+            "raw": false
+        },
+        "Demo": {
+            "raw": false
+        },
+        "Transition1": {
+            "raw": false
+        },
+        "Transition2": {
+            "raw": false
+        },
+        "Transition3": {
+            "raw": false
+        },
+        "Transition4": {
+            "raw": false
+        },
+        "Transition5": {
+            "raw": false
         }
     },
     "sceneprotos": {
         "Game": {
             "raw": false,
             "levels": [
-                "Level1"
+                "Level1",
+                "Level2",
+                "Level4",
+                "Level3"
             ]
         }
     }
